@@ -1,0 +1,46 @@
+UPDATE: Customize a saree, then click Save saree & go to bag. The fabric, colours, border, pallu, motifs, blouse and preview are saved together before navigation. Edit a saved design from its bag link. Custom prices are illustrative estimates for mock checkout only.
+
+DHIYA BOUTIQUE — SOURCE CODE
+
+LATEST FEATURES
+Fixed homepage, full scroll-triggered film, automatic arched carousel, click-to-spin text reveal, WebGPU/TSL effects, collections, wishlist, shopping bag, customizer, mock checkout and PostgreSQL adapter.
+
+WINDOWS / VS CODE
+1. Install Node.js 22.13 or newer.
+2. Extract this ZIP fully. Open the DHIYA_Boutique folder in VS Code.
+3. Open Terminal > New Terminal and choose Command Prompt (CMD).
+4. Run:
+
+   npx --yes pnpm@11.25.0 install
+   npx --yes pnpm@11.25.0 dev
+
+5. Open the localhost URL printed in the terminal (normally http://localhost:5173).
+
+Alternatively, double-click RUN_DHIYA.bat after installing Node.js. It installs dependencies when missing, then starts the dev server.
+
+If port 5173 is already in use, close the previous dev terminal with Ctrl+C before starting again.
+
+TRY THE HOMEPAGE
+Scroll upward once, or tap the play cue. The complete film plays first, then shopping buttons and the moving gallery appear. Click a gallery photo to spin it and reveal text. Home stays fixed; the store pages can scroll.
+
+DATABASE (OPTIONAL FOR MOCK CHECKOUT)
+The current hosted adapter uses PostgreSQL through Neon's HTTP driver.
+Copy .env.example to .env.local and replace DATABASE_URL with your server-only connection string, then run:
+
+   npx --yes pnpm@11.25.0 db:migrate
+
+PostgreSQL has NOT been connected or tested against a live database. Without DATABASE_URL, simulated orders are saved in the browser. This adapter cannot connect directly to a local PostgreSQL TCP server without a driver/runtime change.
+
+AI PREVIEWS
+The live flat design study works without an API key. AI image generation needs a server-only OPENAI_API_KEY and ENABLE_IMAGE_GENERATION=true. No credentials are included.
+
+PAYMENTS
+All payments are simulated, as requested. No money is charged and no orders are fulfilled. Catalogue photos/names/prices are illustrative; source credits are included. Customer login and a protected admin dashboard are not included in this first version.
+
+TECHNICAL NOTES
+This is the deployed Next.js App Router-compatible source, hosted with the Vinext runtime and Cloudflare Workers. It is not a plain next dev / Vercel build. Follow the supplied pnpm scripts.
+
+Node modules, build output, Git history, runtime state and secrets are excluded. The standalone export does not retain the hosted Site project ID.
+TypeScript and production builds passed for this source. Browser interactions and GPU visuals remain unverified.
+
+See README.md and IMAGE_CREDITS.md for additional details.
