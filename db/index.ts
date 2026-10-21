@@ -1,4 +1,5 @@
-import {env} from 'cloudflare:workers';
+// Use the standard Node.js environment on Vercel.
+const env = process.env;
 import {neon} from '@neondatabase/serverless';
 export class DatabaseNotConfigured extends Error{constructor(){super('PostgreSQL is not connected.');this.name='DatabaseNotConfigured'}}
 export function getSql(){

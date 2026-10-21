@@ -1,6 +1,6 @@
 # DHIYA Boutique
 
-Next.js App Router / React / TypeScript storefront using the supplied DHIYA landing film. Hosted through Vinext's Next.js-compatible runtime on Cloudflare Workers. Database adapter: PostgreSQL over HTTP using Neon's serverless driver. No D1 or Firebase is used by current application code.
+Next.js App Router / React / TypeScript storefront using the supplied DHIYA landing film. The **default build now targets Vercel using standard Next.js**, including its `.next` output. Optional legacy Vinext/Cloudflare build scripts remain under `*:cloudflare`. Database adapter: PostgreSQL over HTTP using Neon's serverless driver. No D1 or Firebase is used by current application code.
 
 ## Included
 
@@ -34,7 +34,7 @@ pnpm db:migrate
 pnpm dev
 ```
 
-On Windows CMD, copy with `copy .env.example .env.local`. Do not commit secrets. Configure hosted values using the Site's runtime environment settings, then redeploy if needed. Sites does not apply these external PostgreSQL migrations automatically; `pnpm db:migrate` does so explicitly through the supplied connection.
+On Windows CMD, copy with `copy .env.example .env.local`. Standard Next.js runs locally at http://localhost:3000. Do not commit secrets. Configure hosted values using the Site's runtime environment settings, then redeploy if needed. Sites does not apply these external PostgreSQL migrations automatically; `pnpm db:migrate` does so explicitly through the supplied connection.
 
 Without `DATABASE_URL`, the mock checkout remains available and stores demo orders on the browser only. This is clearly indicated on the confirmation. Switching to PostgreSQL does not import browser-only demo history or historical D1 demo rows automatically. The old `drizzle/` folder contains immutable historical D1 migration records, not active application migrations. Current PostgreSQL migrations live in `db/postgres/migrations`.
 
@@ -59,3 +59,35 @@ Requires server-only `OPENAI_API_KEY` and `ENABLE_IMAGE_GENERATION=true`. Withou
 ## Remaining live-store work
 
 Actual stock/catalogue data, customer authentication, protected admin dashboard, verified boutique contact/business details, live fulfilment and final policies. Payments intentionally remain mocked as requested. Browser wishlist, bag and designs are not cross-device synced yet.
+
+## Vercel deployment (standard Next.js)
+
+The GitHub repository should be imported as **Next.js**, with the repository root
+as its Root Directory (leave blank), build command `pnpm build` (or automatic),
+and **no custom Output Directory** (Vercel uses `.next`).
+
+The default `pnpm build` script runs `next build`, not Vinext. The previously
+reported `NEXT_NO_ROUTES_MANIFEST` error occurs when Vinext emits Cloudflare
+output while Vercel expects the Next.js `.next/routes-manifest.json`. The
+Cloudflare-only `cloudflare:workers` environment imports in API/database routes
+were replaced with `process.env`, so those routes can run on Vercel Node.js.
+
+Environment variables are optional for a mock-only deploy. To store demo orders
+online, set `DATABASE_URL` in Vercel Project Settings -> Environment Variables
+to a Neon PostgreSQL connection string (and apply migrations using
+`pnpm db:migrate`). Without it, demo orders are stored in the current browser.
+`OPENAI_API_KEY` and `ENABLE_IMAGE_GENERATION=true` are optional for AI previews.
+Never put these secrets in the GitHub repository, or in `NEXT_PUBLIC_*` values.
+
+For local development:
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+```
+
+For a Cloudflare/Vinext build instead of Vercel, use
+`pnpm build:cloudflare` and `pnpm dev:cloudflare`. The original Cloudflare
+deployment scripts are retained for reference, but should be validated on that
+platform after the environment adapter change.

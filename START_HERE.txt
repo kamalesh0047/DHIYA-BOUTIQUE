@@ -14,11 +14,11 @@ WINDOWS / VS CODE
    npx --yes pnpm@11.25.0 install
    npx --yes pnpm@11.25.0 dev
 
-5. Open the localhost URL printed in the terminal (normally http://localhost:5173).
+5. Open the localhost URL printed in the terminal (normally http://localhost:3000).
 
 Alternatively, double-click RUN_DHIYA.bat after installing Node.js. It installs dependencies when missing, then starts the dev server.
 
-If port 5173 is already in use, close the previous dev terminal with Ctrl+C before starting again.
+If port 3000 is already in use, close the previous dev terminal with Ctrl+C before starting again.
 
 TRY THE HOMEPAGE
 Scroll upward once, or tap the play cue. The complete film plays first, then shopping buttons and the moving gallery appear. Click a gallery photo to spin it and reveal text. Home stays fixed; the store pages can scroll.
@@ -38,7 +38,7 @@ PAYMENTS
 All payments are simulated, as requested. No money is charged and no orders are fulfilled. Catalogue photos/names/prices are illustrative; source credits are included. Customer login and a protected admin dashboard are not included in this first version.
 
 TECHNICAL NOTES
-This is the deployed Next.js App Router-compatible source, hosted with the Vinext runtime and Cloudflare Workers. It is not a plain next dev / Vercel build. Follow the supplied pnpm scripts.
+The default npm/pnpm scripts now run standard Next.js, suitable for Vercel. The earlier Cloudflare/Vinext scripts remain available as `dev:cloudflare`, `build:cloudflare`, and `start:cloudflare`. See VERCEL_DEPLOYMENT_GUIDE.md for Vercel configuration.
 
 Node modules, build output, Git history, runtime state and secrets are excluded. The standalone export does not retain the hosted Site project ID.
 TypeScript and production builds passed for this source. Browser interactions and GPU visuals remain unverified.
